@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LOGO, USER_AVATAR } from "../utils/constant";
 import { auth } from "../utils/firebase";
-import { signOut } from "firebase/auth";
+import {  signOut } from "firebase/auth";
+import {  onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser, removeUser } from "../utils/userSlice";
 
 function Header() {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const user = useSelector((store) => store.user);
 
 const handleSignOut = () => {
@@ -16,6 +19,21 @@ const handleSignOut = () => {
         navigate("/error");
       });
   };
+
+    useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
+        navigate('/browse')
+      } else {
+        // User is signed out
+        dispatch(removeUser());
+        navigate('/')
+      }
+    });
+  }, []);
 
   return (
     <div className="absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">

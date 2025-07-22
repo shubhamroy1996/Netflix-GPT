@@ -10,6 +10,7 @@ import {
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../utils/userSlice";
+import { useDispatch } from "react-redux";
 
 function Login() {
   const [isSignInForm, setSignInForm] = useState(true);
@@ -18,7 +19,7 @@ function Login() {
   const name = useRef(null)
   const email = useRef(null);
   const password = useRef(null);
-  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   function handleButtonClick() {
     const validationResponse = checkValidData(
@@ -50,7 +51,6 @@ function Login() {
                  displayName: displayName,
                  photoURL: photoURL,
                  }));
-            navigate('/browse')
             })
           })
         .catch((error) => {
@@ -68,7 +68,7 @@ function Login() {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          navigate('/browse')
+
         })
         .catch((error) => {
           const errorCode = error.code;
