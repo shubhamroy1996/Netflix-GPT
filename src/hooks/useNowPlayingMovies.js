@@ -3,7 +3,6 @@ import { addNowPlayingMovies } from "../utils/movieSlice"
 import { API_OPTIONS } from "../utils/constant"
 import { useEffect } from "react"
 
-
 const useNowPlayingMovies = () => {
 
   const dispatch = useDispatch()
