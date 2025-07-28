@@ -9,14 +9,15 @@ import MovieContainer from "./MovieContainer";
 
 function Browse() {
 
+  const dispatch = useDispatch()
+
   useNowPlayingMovies()
 
   return (
     <>
-  <div className="w-full h-full">
-    <h1><Header/></h1>
-  </div>
   <div>
+    <Header/>
+  
     <MovieContainer/>
   </div>
     </>
